@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Effectuer un Virement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .transfer-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Barre de chargement flottante */
+        .loading-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px auto;
+        }
+
+        .loading-bar span {
+            display: block;
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0%;
+            animation: loading 3s linear forwards;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Nouveau message "Virement en cours..." */
+        .status-message {
+            font-size: 18px;
+            font-weight: bold;
+            color: green;
+            text-align: center;
+            display: none;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Effectuer un virement</h1>
+
+        <form class="transfer-form" id="virement-form" onsubmit="return submitVirement()">
+            <h2>Virement ponctuel</h2>
+
+            <div class="form-group">
+                <label for="account-emitter">Sélectionnez un compte émetteur</label>
+                <select id="account-emitter" required>
+                    <option value="03940">Compte - N°03940 000000XXXXXX</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="balance">Solde du jour</label>
+                <input type="text" id="balance" value="+8.568.000,00 CAD" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-account">Sélectionnez un compte bénéficiaire</label>
+                <select id="recipient-account" required>
+                    <option value="82012700000">Compte - FRA 82012700000</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="transfer-amount">Montant</label>
+                <input type="number" id="transfer-amount" placeholder="Entrez le montant" required>
+            </div>
+
+            <div class="form-group">
+                <label for="transfer-date">Date de prélèvement</label>
+                <input type="date" id="transfer-date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="recipient-name">Nom du bénéficiaire</label>
+                <input type="text" id="recipient-name" placeholder="Nom du bénéficiaire">
+            </div>
+
+            <button type="submit" class="btn">Valider</button>
+        </form>
+
+        <!-- Message "Virement en cours..." -->
+        <div id="status-message" class="status-message">✅ Virement en cours...</div>
+
+        <!-- Barre de chargement flottante -->
+        <div id="overlay" class="overlay"></div>
+        <div id="loading-container" class="loading-container">
+            <p>Chargement du virement...</p>
+            <div class="loading-bar">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function submitVirement() {
+            // Affiche le message "Virement en cours..." en vert
+            document.getElementById('status-message').style.display = 'block';
+
+            // Affiche la bulle de chargement
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('loading-container').style.display = 'block';
+
+            // Simule le délai de traitement
+            setTimeout(function() {
+                // Masquer la barre de chargement et "Virement en cours..."
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('loading-container').style.display = 'none';
+                document.getElementById('status-message').style.display = 'none';
+
+                // Message de validation
+                alert('✅ Virement validé avec succès !');
+            }, 3000);
+
+            return false; // Empêche l'envoi du formulaire
+        }
+    </script>
+</body>
+</html>
+    
